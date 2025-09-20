@@ -1,0 +1,614 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kala‑Yug • Artisan </title>
+  <link rel="icon" href="logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1221; /* deep indigo */
+      --card:#171a2b;
+      --muted:#8b90b3;
+      --text:#eef0ff;
+      --brand:#7c5cff; /* violet */
+      --brand-2:#00d4ff; /* cyan */
+      --accent:#25d366; /* action green */
+      --danger:#ff5c7a;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(124,92,255,.25), transparent 60%),
+                  radial-gradient(1000px 600px at 120% 10%, rgba(0,212,255,.2), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:100;
+      backdrop-filter:saturate(160%) blur(8px);
+      background:linear-gradient(0deg, rgba(15,18,33,.55), rgba(15,18,33,.55));
+      border-bottom:1px solid rgba(124,92,255,.15);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      max-width:1200px; margin:0 auto; padding:14px 20px;
+    }
+    .logo{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.3px}
+    .logo-badge{
+      width:36px; height:36px; border-radius:12px;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      display:grid; place-items:center; color:white; font-weight:800;
+      box-shadow:var(--shadow);
+    }
+    .profile{display:flex; align-items:center; gap:12px}
+    .avatar{width:38px; height:38px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,.15)}
+    .btn-outline{
+      background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px; border-radius:12px; cursor:pointer; font-weight:500;
+    }
+    .btn-outline:hover{border-color:rgba(255,255,255,.35)}
+
+    /* Layout */
+    main{max-width:1200px; margin:24px auto 80px; padding:0 20px}
+    .hidden{display:none !important}
+
+    /* Cards */
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0) 40%), var(--card);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+    }
+
+    /* Home (Landing) */
+    .hero{display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:stretch}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}}
+
+    .hero-left{padding:28px}
+    .kicker{color:var(--muted); font-weight:600; font-size:.9rem; letter-spacing:.2px}
+    h1{margin:.2em 0 .4em; font-size:clamp(28px, 4vw, 44px)}
+    .sub{color:#cfd3ff; font-weight:400; line-height:1.55}
+
+    .actions{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px}
+    @media (max-width:600px){.actions{grid-template-columns:1fr}}
+
+    .action{
+      display:flex; align-items:center; gap:14px; padding:16px; border-radius:16px; cursor:pointer; border:1px solid rgba(255,255,255,.1);
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      background:linear-gradient(135deg, rgba(124,92,255,.18), rgba(124,92,255,.04));
+    }
+    .action.story{background:linear-gradient(135deg, rgba(0,212,255,.20), rgba(0,212,255,.05))}
+    .action:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.25); border-color:rgba(255,255,255,.25)}
+    .icon{width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:rgba(255,255,255,.08)}
+
+    .hero-right{position:relative; overflow:hidden}
+    .hero-right img{width:100%; height:100%; object-fit:cover; border-radius:var(--radius)}
+
+    .section-title{display:flex; align-items:center; justify-content:space-between; margin:28px 6px 14px}
+    .section-title h2{margin:0; font-size:1.2rem}
+
+    .grid{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+    }
+    @media (max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:480px){.grid{grid-template-columns:1fr}}
+
+    .thumb{position:relative; overflow:hidden; border-radius:16px}
+    .thumb img{width:100%; height:180px; object-fit:cover; display:block}
+    .thumb .meta{position:absolute; left:8px; bottom:8px; background:rgba(15,18,33,.7); padding:6px 10px; border-radius:10px; font-size:.8rem}
+
+    /* Flow shared */
+    .flow{max-width:900px; margin:0 auto}
+    .flow .inner{padding:24px}
+    .center{display:grid; place-items:center; text-align:center}
+
+    .uploader{border:2px dashed rgba(255,255,255,.18); border-radius:18px; padding:28px; cursor:pointer; background:rgba(255,255,255,.04)}
+    .uploader:hover{border-color:rgba(255,255,255,.32)}
+    .uploader input{display:none}
+    .preview{margin-top:14px; display:none}
+    .preview img{max-width:100%; border-radius:14px}
+
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:0; background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:white;
+      padding:12px 16px; border-radius:12px; font-weight:600; cursor:pointer; box-shadow:var(--shadow);
+    }
+    .btn[disabled]{opacity:.5; cursor:not-allowed}
+    .btn.secondary{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.22)}
+    .btn.ghost{background:transparent; color:var(--text)}
+    .btn.success{background:linear-gradient(135deg, #2ecc71, #27ae60)}
+    .btn.danger{background:linear-gradient(135deg, #ff6b81, #ff4757)}
+
+    .progress-wrap{width:100%; background:rgba(255,255,255,.08); border-radius:12px; padding:4px; margin-top:16px}
+    .progress{height:12px; width:0%; border-radius:10px; background:linear-gradient(90deg, var(--brand), var(--brand-2))}
+    .spinner{width:56px; height:56px; border:6px solid rgba(255,255,255,.15); border-top-color:var(--brand); border-radius:50%; animation:spin 1s linear infinite; margin:14px auto}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
+    @media (max-width:700px){.gallery{grid-template-columns:1fr}}
+    .design-card{background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:14px; overflow:hidden}
+    .design-card img{width:100%; height:220px; object-fit:cover; display:block}
+    .design-card .pad{padding:12px}
+
+    /* Storyteller */
+    .tabs{display:flex; gap:10px; margin-top:10px}
+    .tab{padding:10px 14px; border-radius:10px; cursor:pointer; border:1px solid rgba(255,255,255,.16)}
+    .tab.active{background:linear-gradient(135deg, rgba(124,92,255,.25), rgba(124,92,255,.08))}
+    textarea{width:100%; min-height:140px; resize:vertical; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.04); color:var(--text); font-family:inherit}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+
+    /* Public Profile */
+    .profile-header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px}
+    .follow{border:1px solid rgba(255,255,255,.2); padding:8px 14px; border-radius:10px; background:transparent; color:var(--text); cursor:pointer}
+
+    footer{max-width:1200px; margin:60px auto 40px; padding:0 20px; color:var(--muted); font-size:.9rem}
+    .credit-wrap {
+  background: linear-gradient(135deg, #02172e, #011223);padding: 30px;  text-align: left;  border-radius: 12px;margin-top: 20px;  box-shadow: 0 8px 15px rgba(251, 248, 248, 0.3);
+}
+
+.credit-container h2 {
+  margin: 0 0 10px;
+}
+
+.credit-container button {
+  background: white;color: #025346;  border: none;padding: 12px 20px;  margin: 10px;font-size: 16px;  border-radius: 8px;cursor: pointer;  transition: 0.3s;
+}
+
+.credit-container button:hover {
+  background: #f1f1f1;
+}
+
+  
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <div class="logo-badge">KY</div>
+        <div>Kala‑Yug <span style="font-weight:400; color:var(--muted)">Artisan Suite</span></div>
+      </div>
+      <div class="profile">
+        <button class="btn-outline" onclick="goHome()">Home</button>
+        <img class="avatar" alt="Profile" src="logo.jpg" />
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME / LANDING -->
+     <section id="home" class="home-section">
+      <div class="hero">
+        <div class="hero-left card">
+          <div class="kicker">Welcome back, Artisan ✨</div>
+          <h1>Design faster. Tell richer stories.</h1>
+          <p class="sub">Our dashboard gives quick access to Kala‑Yug tools and our latest work. Generate design mockups, craft product narratives, and share a polished public profile in minutes.</p>
+
+          <div class="actions">
+            <div class="action" role="button" tabindex="0" onclick="showSection('gda-upload')">
+              <div class="icon" aria-hidden="true">🎨</div>
+              <div>
+                <div style="font-weight:700">Generate New Design</div>
+                <div style="color:var(--muted); font-size:.92rem">Use the Generative Design Assistant (GDA)</div>
+              </div>
+            </div>
+            <div class="action story" role="button" tabindex="0" onclick="showSection('story-input')">
+              <div class="icon" aria-hidden="true">🖊️</div>
+              <div>
+                <div style="font-weight:700">Create Product Story</div>
+                <div style="color:var(--muted); font-size:.92rem">Use the AI Storyteller</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right card">
+          <img alt="Craft collage" src="avatar.jpg"/>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h2>Recent Projects</h2>
+        <button class="btn secondary" onclick="clearProjects()">Clear Demo Data</button>
+      </div>
+      <div id="recentGrid" class="grid"></div>
+    </section>
+
+    <!-- GDA FLOW -->
+     <section id="gda-upload" class="flow hidden">
+      <div class="card inner">
+        <h2>Upload Your Motif</h2>
+        <p class="sub">Upload a photo of your traditional motif or product (.png or .jpeg).</p>
+        <label class="uploader center" for="motifInput">
+          <div>
+            <div style="font-size:42px">📷</div>
+            <div style="color:var(--muted)">Tap to choose an image</div>
+          </div>
+          <input id="motifInput" type="file" accept="image/png,image/jpeg" />
+        </label>
+        <div id="motifPreview" class="preview">
+          <img id="motifImg" alt="Uploaded motif preview" />
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button id="gdaNext" class="btn" disabled onclick="startGeneration()">Next</button>
+          <button class="btn secondary" onclick="goHome()">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="gda-progress" class="flow hidden">
+      <div class="card inner center">
+        <div class="spinner" aria-hidden="true"></div>
+        <h2>Our AI is co‑creating your new designs!</h2>
+        <p class="sub">This may take up to 60 seconds…</p>
+        <div class="progress-wrap" aria-label="progress">
+          <div id="gdaBar" class="progress"></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn ghost" onclick="cancelGeneration()">Stop</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="gda-results" class="flow hidden">
+      <div class="card inner">
+        <h2>Your New Designs</h2>
+        <div class="gallery" id="gdaGallery"></div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn" onclick="showSection('gda-upload'); resetGDA()">Generate Another</button>
+          <button class="btn secondary" onclick="goHome()">Back to Home</button>
+        </div>
+      </div>
+    </section> 
+
+    <!-- STORYTELLER FLOW -->
+     <section id="story-input" class="flow hidden">
+      <div class="card inner">
+        <h2>Tell Your Product's Story</h2>
+        <div class="tabs">
+          <button id="tabText" class="tab active" onclick="selectStoryTab('text')">Text Input</button>
+          <button id="tabAudio" class="tab" onclick="selectStoryTab('audio')">Audio Input</button>
+        </div>
+
+        <div id="storyTextWrap" style="margin-top:12px">
+          <textarea id="storyText" placeholder="Describe your craft, materials, inspiration, and who it's for…"></textarea>
+          <div class="row" style="margin-top:12px">
+            <button class="btn" onclick="startStoryGeneration('text')">Generate</button>
+            <button class="btn secondary" onclick="goHome()">Cancel</button>
+          </div>
+        </div>
+
+        <div id="storyAudioWrap" class="hidden" style="margin-top:12px">
+          <div class="card" style="padding:14px">
+            <div class="row" style="align-items:center; justify-content:space-between">
+              <div>
+                <div style="font-weight:600">Record a short voice note about your craft</div>
+                <div id="audioTimer" class="mono" style="color:var(--muted); margin-top:4px">00:30</div>
+              </div>
+              <div class="row">
+                <button id="btnRecord" class="btn" onclick="audioRecord()">Start Recording</button>
+                <button id="btnStop" class="btn danger" onclick="audioStop()" disabled>Stop</button>
+                <button id="btnPlay" class="btn secondary" onclick="audioPlay()" disabled>Play</button>
+              </div>
+            </div>
+            <audio id="audioPlayer" class="hidden"></audio>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <button class="btn" onclick="startStoryGeneration('audio')">Generate</button>
+            <button class="btn secondary" onclick="goHome()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="story-progress" class="flow hidden">
+      <div class="card inner center">
+        <div class="spinner" aria-hidden="true"></div>
+        <h2>We’re crafting your narrative…</h2>
+        <p class="sub">Sit tight while the AI polishes your product story.</p>
+        <div class="progress-wrap"><div id="storyBar" class="progress"></div></div>
+      </div>
+    </section>
+
+    <section id="story-results" class="flow hidden">
+      <div class="card inner">
+        <h2>Your Product Narrative</h2>
+        <div style="display:grid; gap:12px">
+          <div>
+            <h3 style="margin:.2em 0">Product Description</h3>
+            <textarea id="storyDesc" class="mono" style="min-height:200px"></textarea>
+            <div class="row" style="margin-top:8px">
+              <button class="btn" onclick="copyText('storyDesc')">Copy</button>
+              <button class="btn success" onclick="saveStory()">Save</button>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:.2em 0">Social Media Captions</h3>
+            <ul id="storyCaptions"></ul>
+          </div>
+          <div>
+            <h3 style="margin:.2em 0">Suggested Hashtags</h3>
+            <div id="storyTags" class="row" style="flex-wrap:wrap"></div>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn secondary" onclick="goHome()">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section> 
+
+    <!-- PUBLIC PROFILE (shareable) -->
+     <section id="public-profile" class="flow hidden">
+      <div class="card">
+        <div class="profile-header">
+          <div style="font-size:1.1rem; font-weight:600" id="ppName">Lata • Artisan</div>
+          <button class="follow">Follow</button>
+        </div>
+        <div class="inner">
+          <h3>Gallery</h3>
+          <div class="gallery" id="ppGallery"></div>
+
+          <h3 style="margin-top:16px">Product Story</h3>
+          <p id="ppStory" class="sub"></p>
+
+          <div class="row" style="margin-top:12px">
+            <button class="btn" onclick="sharePublic()">Share Profile</button>
+            <button class="btn secondary" onclick="goHome()">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <section id="credit-section" class="credit-wrap">
+    <div class="credit-container">
+      <h2>My Service</h2>
+      <p id="creditStatus">You have <span id="creditCount">3</span> free credits left</p>
+      <button id="useServiceBtn">Use Service</button>
+      <button id="payBtn" style="display:none;">Pay ₹5 to Continue</button>
+    </div>
+  </section>
+  © <span id="year"></span> Kala-Yug • Demo UI
+  
+  </footer>
+
+  <script> 
+    <!-- // ============= UTILITIES & NAVIGATION =============
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const sections = ['home','gda-upload','gda-progress','gda-results','story-input','story-progress','story-results','public-profile'];
+    const showSection = id => {
+      sections.forEach(s => $('#'+s).classList.toggle('hidden', s!==id));
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    const goHome = ()=>{ showSection('home'); refreshRecent(); }
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') goHome(); });
+    $('#year').textContent = new Date().getFullYear();
+
+    // ============= RECENT PROJECTS (localStorage) =============
+    const LS_KEY = 'kalaYugProjects';
+    function getProjects(){ try { return JSON.parse(localStorage.getItem(LS_KEY))||[] } catch { return [] } }
+    function setProjects(arr){ localStorage.setItem(LS_KEY, JSON.stringify(arr)); }
+    function addProject(p){ const all = getProjects(); all.unshift(p); setProjects(all); refreshRecent(); }
+    function clearProjects(){ localStorage.removeItem(LS_KEY); refreshRecent(); }
+
+    function refreshRecent(){
+      const grid = $('#recentGrid'); grid.innerHTML = '';
+      const data = getProjects();
+      if(!data.length){
+        // seed demo
+        const seed = [1,2,3,4,5,6].map(i=>({
+          id: 'demo-'+i,
+          type: i%2? 'design':'story',
+          thumb: `https://picsum.photos/seed/recent${i}/600/400`,
+          title: i%2? 'Design Mockup' : 'Product Story',
+          time: Date.now()-i*3600_000
+        }));
+        setProjects(seed); return refreshRecent();
+      }
+      data.slice(0,8).forEach(p=>{
+        const card = document.createElement('div'); card.className='thumb card';
+        card.innerHTML = `
+          <img alt="${p.title}" src="${p.thumb}"/>
+          <div class="meta">${p.type==='design'?'🧩 Design':'📝 Story'} • ${new Date(p.time).toLocaleString()}</div>
+        `;
+        card.onclick = ()=>{
+          if(p.type==='design') { loadPublicFromProject(p); } else { loadPublicFromProject(p); }
+          showSection('public-profile');
+        }
+        grid.appendChild(card);
+      })
+    }
+
+    // ============= GDA: Upload -> Progress -> Results =============
+    const motifInput = $('#motifInput');
+    const gdaNext = $('#gdaNext');
+    const motifPreview = $('#motifPreview');
+    const motifImg = $('#motifImg');
+    let uploadedDataUrl = null, gdaTimer=null;
+
+    motifInput.addEventListener('change', async (e)=>{
+      const file = e.target.files?.[0];
+      if(!file) return;
+      const url = URL.createObjectURL(file);
+      motifImg.src = url; motifPreview.style.display='block'; uploadedDataUrl = url; gdaNext.disabled=false;
+    });
+
+    function startGeneration(){
+      showSection('gda-progress');
+      const bar = $('#gdaBar'); bar.style.width='0%';
+      let p=0; gdaTimer = setInterval(()=>{ p=Math.min(100,p+ Math.random()*12); bar.style.width=p+'%'; if(p>=100){ clearInterval(gdaTimer); setTimeout(finishGeneration, 400); } }, 450);
+    }
+    function cancelGeneration(){ clearInterval(gdaTimer); showSection('gda-upload'); }
+
+    function finishGeneration(){
+      // Simulate three AI-generated designs
+      const seeds = ['designA','designB','designC'];
+      const gallery = $('#gdaGallery'); gallery.innerHTML='';
+      seeds.forEach((s,idx)=>{
+        const url = `https://picsum.photos/seed/${s}-${Math.floor(Math.random()*10000)}/900/700`;
+        const wrap = document.createElement('div'); wrap.className='design-card';
+        wrap.innerHTML = `
+          <img alt="Generated design ${idx+1}" src="${url}"/>
+          <div class="pad">
+            <div style="font-weight:600; margin-bottom:6px">Design ${idx+1}</div>
+            <div class="row">
+              <button class="btn success" onclick="saveDesign('${url}')">Save</button>
+              <button class="btn secondary" onclick="shareImage('${url}')">Share</button>
+            </div>
+          </div>
+        `;
+        gallery.appendChild(wrap);
+      })
+      showSection('gda-results');
+    }
+
+    function resetGDA(){ motifInput.value=''; uploadedDataUrl=null; motifPreview.style.display='none'; gdaNext.disabled=true; }
+
+    function saveDesign(url){
+      const project = { id:'design-'+Date.now(), type:'design', thumb:url, images:[uploadedDataUrl,url], time:Date.now(), title:'Design Mockup' };
+      addProject(project);
+      alert('Design saved to your profile (local demo).');
+    }
+
+    async function shareImage(url){
+      const shareData = { title:'Kala‑Yug Design', text:'Check out this design I created!', url: location.href };
+      try{
+        if(navigator.share){ await navigator.share(shareData); }
+        else { await navigator.clipboard.writeText(shareData.url); alert('Share link copied to clipboard.'); }
+      }catch(e){ console.warn(e); }
+    }
+
+    // ============= STORYTELLER: Text/Audio -> Progress -> Results =============
+    function selectStoryTab(which){
+      $('#tabText').classList.toggle('active', which==='text');
+      $('#tabAudio').classList.toggle('active', which==='audio');
+      $('#storyTextWrap').classList.toggle('hidden', which!=='text');
+      $('#storyAudioWrap').classList.toggle('hidden', which!=='audio');
+    }
+
+    function startStoryGeneration(mode){
+      showSection('story-progress');
+      const bar = $('#storyBar'); bar.style.width='0%';
+      let p=0; const t = setInterval(()=>{ p=Math.min(100,p+ Math.random()*14); bar.style.width=p+'%'; if(p>=100){ clearInterval(t); setTimeout(()=>finishStory(mode), 400); } }, 380);
+    }
+
+    function loremStory(base){
+      const seed = base?.trim() || 'a handcrafted motif inspired by regional heritage and sustainable materials';
+      return `This piece celebrates ${seed}. Designed with patience and practical craftsmanship, each curve and color tells a chapter of our cultural memory. Artisans carefully source materials from responsible partners and shape them using time-honored techniques. The texture feels warm in hand while the form remains functional for everyday use. Subtle imperfections are a signature of human touch—no two items are exactly alike. We created this with comfort, durability, and honest pricing in mind so it fits naturally into modern homes. Whether gifted to a loved one or kept as a personal treasure, it invites gentle care and rewards years of companionship. Add it to your space to spark conversations about tradition, community, and the slow joy of making.`;
+    }
+
+    function finishStory(mode){
+      const desc = loremStory(mode==='text' ? $('#storyText').value : 'your voice note');
+      $('#storyDesc').value = desc;
+      const caps = [
+        'Handmade heritage for modern homes ✨',
+        'Crafted with patience. Designed for everyday.',
+        'Small batch. Big heart. #SupportArtisans'
+      ];
+      const tags = ['#Handcrafted','#Sustainable','#Artisan','#KalaYug','#SlowMade','#EthicalDesign','#IndianCraft','#Tradition'];
+      const ul = $('#storyCaptions'); ul.innerHTML='';
+      caps.forEach(c=>{ const li=document.createElement('li'); li.textContent=c; ul.appendChild(li); });
+      const wrap = $('#storyTags'); wrap.innerHTML='';
+      tags.forEach(t=>{ const chip = document.createElement('span'); chip.textContent=t; chip.className='btn ghost'; wrap.appendChild(chip); });
+      showSection('story-results');
+    }
+
+    function copyText(id){ const el = document.getElementById(id); el.select(); document.execCommand('copy'); el.blur(); alert('Copied to clipboard.'); }
+
+    function saveStory(){
+      const text = $('#storyDesc').value;
+      const project = { id:'story-'+Date.now(), type:'story', thumb:`https://picsum.photos/seed/story${Math.floor(Math.random()*9999)}/600/400`, story:text, time:Date.now(), title:'Product Story' };
+      addProject(project);
+      alert('Story saved to your profile (local demo).');
+    }
+
+    // ============= AUDIO RECORDING (30s) =============
+    let mediaRec=null, audioChunks=[]; let countdown=null; let secs=30;
+    async function audioRecord(){
+      try{
+  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  mediaRec = new MediaRecorder(stream);
+  audioChunks=[]; secs=30; $('#audioTimer').textContent='00:30';
+  mediaRec.ondataavailable = e=> audioChunks.push(e.data);
+  mediaRec.onstop = ()=>{ const blob = new Blob(audioChunks, {type:'audio/webm'}); const url = URL.createObjectURL(blob); const audio = $  ('#audioPlayer'); audio.src=url; audio.classList.remove('hidden'); $('#btnPlay').disabled=false; };
+  mediaRec.start();
+  $('#btnRecord').disabled=true; $('#btnStop').disabled=false;
+  countdown = setInterval(()=>{ secs--; const m = String(Math.floor(secs/60)).padStart(2,'0'); const s = String(secs%60).padStart(2,'0'); $   ('#audioTimer').textContent=`${m}:${s}`; if(secs<=0) audioStop(); },1000);
+  }catch(err){ alert('Microphone permission needed to record.'); console.error(err); }
+  }
+    function audioStop(){ try{ mediaRec?.stop(); }catch{}; clearInterval(countdown); $('#btnRecord').disabled=false; $('#btnStop').disabled=true; }
+    function audioPlay(){ $('#audioPlayer').play(); }
+
+    // ============= PUBLIC PROFILE =============
+    function loadPublicFromProject(p){
+      $('#ppGallery').innerHTML = '';
+      const imgs = p.images?.length ? p.images : [p.thumb];
+      imgs.forEach(u=>{ const img=document.createElement('img'); img.src=u; img.alt='Project image'; img.style.width='100%'; img.style.height='220px'; img.style.objectFit='cover'; img.className='card'; $('#ppGallery').appendChild(img); })
+      $('#ppStory').textContent = p.story || 'No story yet. Generate one via AI Storyteller.';
+    }
+
+    function sharePublic(){
+      const url = location.href; const data = {title:'Kala‑Yug Profile', text:'Check out my product profile!', url};
+      if(navigator.share) navigator.share(data).catch(()=>{});
+      else navigator.clipboard.writeText(url).then(()=> alert('Shareable link copied.'));
+    }
+
+    // Init
+    refreshRecent();
+
+
+    // ===== CREDIT SYSTEM =====
+  const useServiceBtn = document.getElementById("useServiceBtn");
+  const payBtn = document.getElementById("payBtn");
+  const creditCountEl = document.getElementById("creditCount");
+  const creditStatus = document.getElementById("creditStatus");
+
+  let credits = 3; // first 3 free
+
+  useServiceBtn.addEventListener("click", () => {
+    if (credits > 0) {
+      credits--;
+      creditCountEl.textContent = credits;
+      creditStatus.textContent = `You have ${credits} free credits left.`;
+      if (credits === 0) {
+        useServiceBtn.style.display = "none";
+        payBtn.style.display = "inline-block";
+      }
+    } else {
+      alert("Please pay ₹5 to continue.");
+    }
+  });
+
+  payBtn.addEventListener("click", async () => {
+    try {
+      const res = await fetch("/pay", { method: "POST" });
+      const data = await res.json();
+      if (data.success) {
+        credits = 1; // grant 1 credit per payment
+        creditCountEl.textContent = credits;
+        creditStatus.textContent = "Payment successful. You got 1 more credit.";
+        useServiceBtn.style.display = "inline-block";
+        payBtn.style.display = "none";
+      } else {
+        alert("Payment failed. Try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Payment server error.");
+    }
+  });
+
+  </script>
+</body>
+</html> 
